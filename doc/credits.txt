@@ -1,0 +1,7 @@
+Original Blogpost that inspired this code (w/ detailed explanation):
+http://vignesh.foamsnet.com/2013/04/solving-boggle-scramble-with-friends.html
+
+Github Repo for bot in above link:
+https://github.com/vickyg3/scripts/tree/master/scramble_bot
+
+NOTE: the only re-used file in this code was the 'dictionary.txt'
