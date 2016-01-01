@@ -121,12 +121,7 @@ class GameEngine:
 				print "Found %s Words" % len(self.worker.found_words)
 				
 		# DEBUG
-		dummy = raw_input('~] ')
-				
-		# need to either just do this once or flush workers found word 
-		# list each time
-		## Better to just do once (if its not a memory issue) to make
-		## duplicate checking simpler for our worker 
+		dummy = raw_input('\n--> ')
 							
 		for chain in self.worker.found_words:
 			data = chain[1]
@@ -139,9 +134,9 @@ class GameEngine:
 		
 		self.solution.close()			
 		self.dictionary.close()	
+	
 		print "[+] All data files successfully closed!"
 		print "Finished!"	
 				
 if __name__=='__main__':
 	newgame = GameEngine()
-	

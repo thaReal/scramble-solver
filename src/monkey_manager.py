@@ -66,4 +66,4 @@ while sfile.tell() != endfile:
 	
 	
 print "\n[+] aaand we're done!\n"
-
+sfile.close()

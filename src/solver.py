@@ -90,17 +90,19 @@ class Worker:
 		self.game = game
 		self.work = []
 		self.found_words = []
+		self.workcount = 0
 		
 	def process_work(self):
 		while len(self.work) != 0:
 			chain = self.work.pop()
-			print "Work remaining: %s" % len(self.work)
-			#if len(chain.rootstr) >= 3:
+			self.workcount += 1
 			check = self.lookup(chain)
+			
 			if check == True:
 				self.find_adjacent(chain)
-			else:
-				print "o Chain ended"
+			
+			if self.workcount % 10 == 0:
+				print "Processed %s chains so far." % str(self.workcount)
 
 	def find_adjacent(self, chain):
 		root_cell = chain.coord
@@ -110,9 +112,9 @@ class Worker:
 			celly = root_cell[1] + i[1]
 			new_coord = (cellx, celly)
 			adjacent_cells.append(new_coord)
-		#print adjacent_cells # DEBUG
 		
-		#now lets check each of our cells for OOB
+		# check each cell for OOB
+		
 		valid_cells1 = []
 		for cell in adjacent_cells:
 			if cell[0] >= 0 and cell[1] >= 0 and cell[0] <= 3 and cell[1] <= 3:
@@ -126,21 +128,19 @@ class Worker:
 					itr = itr + 1		
 			if itr == 0:
 				valid_cells2.append(j)
-		#print valid_cells2 # DEBUG
 		
-		# create new chains with each valid cell and push back to 
-		# work queue
+		# create new chains with each valid cell and push back to work queue
 		
 		for newcoord in valid_cells2:
 			row = newcoord[0]
 			col = newcoord[1]
 			letter = self.game[row][col]
 			newchain = WordChain(chain, newcoord, letter)	
-			print "New Chain: %s, coords: %s" % (newchain.rootstr, newchain.coord_list)
 			self.work.append(newchain)
-			#DEBUG
-			#print "o Chain Added"
-		
+			
+			# DEBUG
+			# print "New Chain: %s, coords: %s" % (newchain.rootstr, 
+			# newchain.coord_list)
 				
 	def lookup(self, chain):
 		lookup_string = chain.rootstr
@@ -158,8 +158,10 @@ class Worker:
 					for word in self.found_words:
 						if lookup_string == word[0]:
 							af = af + 1
+							
 					if af == 0:
-						self.found_words.append((lookup_string, chain.coord_list))
+						self.found_words.append((lookup_string,
+						chain.coord_list))
 						print "[+] Found word: %s!" % lookup_string
 					
 			# regardless, check if there are still valid longer words

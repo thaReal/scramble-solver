@@ -1,2 +1,5 @@
 /src/monkeyrunner
 /src/solution.txt
+
+/src/*.pyc
+/src/*.py~
