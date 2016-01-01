@@ -18,7 +18,7 @@ you'll probably have better luck with a Unix based OS. Otherwise, try
 commenting/uncommenting the corresponding lines of code in /src/solver.py for
 Windows.
 
-> MonkeyRunner
+- MonkeyRunner
 
 Getting MonkeyRunner from the Android SDK to work with the bot correctly is
 really all that needs to be set up, which can range from simple to extremely
@@ -30,8 +30,8 @@ So while I plan to add this to some sort of configuration file, for the moment
 the simplest method I came up with was creating a static link to your
 monkeyrunner executeable in the /src/ directory.
 
-cd scramble-bot/src/
-ln -s /path/to/android-sdk/tools/monkeyrunner
+> cd scramble-bot/src/
+> ln -s /path/to/android-sdk/tools/monkeyrunner
 
 
 Usage
@@ -43,8 +43,8 @@ a Unix version of this but it works virtually the same in Windows.
 1. change into the src directory and run scramble_core.py which is the actual 
    puzzle solving engine.
    
-   cd /src/
-   python scramble_core.py
+   > cd /src/
+   > python scramble_core.py
    
 2. Now the program should prompt you to input the puzzle letters. Start a game 
    and quickly try to memorize a line or two and then pause and type it in. 
@@ -58,7 +58,7 @@ a Unix version of this but it works virtually the same in Windows.
    'Enter' once more so the program completes. With the device plugged into the 
    computer and the game still paused run the following command:
    
-   ./monkeyrunner monkey_manager.py
+   > ./monkeyrunner monkey_manager.py
    
    If everything works correctly the python script should load the solution 
    file, find your device, and then begin running through entering each word. It
