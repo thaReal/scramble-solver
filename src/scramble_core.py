@@ -4,31 +4,91 @@
 import solver
 import os
 
-# TODO: need to add *better* code to create a new solutionfile for each puzzle
 
 class SolutionFile:
 	def __init__(self):
-		self.solutionfile = file('solution.txt', 'w')
-		self.solutionfile.seek(0)
+		self.makefiles()
 		
-	def makefile(self):
-		self.cwd = os.getcwd()
-		datafiles = os.listdir(self.cwd)
-		n = 0
-		if len(datafiles) != 0:
-			for file in datafiles:
-				n += 1
-		#fname = 'solution' + str(n) + '.txt'
+	def makefiles(self):
+		self.maindir = os.getcwd()
+		self.datadir = self.maindir + "/solutiondata/"
+		os.chdir(self.datadir)
 		
-		#print "[+] Created solution file %s" % fname
+		#create output files
+		self.wordsbig = file('words-big.txt' , 'w')
+		self.wordsmed = file('words-med.txt', 'w')
+		self.wordssml = file('words-sml.txt', 'w')
 					
+		# change back to src directory
+		os.chdir(self.maindir)
+		
 		
 	def writedata(self, data):
 		self.solutionfile.write(data)
-		self.solutionfile.write('\n')
+		# self.solutionfile.write('\n')
 		
-	def close(self):
+	# Functions to write found words to respective files based on size
+	# NOTE: probably want to eventually move this all to a post processing step
+	# that can do a finer sort, collect stats, randomize, etc.
+		
+	def writebig(self, data):
+		self.wordsbig.write(data)
+		self.wordsbig.write('\n')
+		
+	def writemed(self, data):
+		self.wordsmed.write(data)
+		self.wordsmed.write('\n')
+		
+	def writesml(self, data):
+		self.wordssml.write(data)
+		self.wordssml.write('\n')
+		
+	def catwords(self):
+		# close and reopen output files in read mode & create solutionfile
+		self.close()
+		os.chdir(self.datadir)
+		
+		self.solutionfile = file('solution.txt', 'w')
+		self.wordsbig = file('words-big.txt' , 'r')
+		self.wordsmed = file('words-med.txt', 'r')
+		self.wordssml = file('words-sml.txt', 'r')
+		
+		self.wordsbig.seek(0, 2)
+		bigend = self.wordsbig.tell()
+		self.wordsbig.seek(0)
+		
+		self.wordsmed.seek(0, 2)
+		medend = self.wordsmed.tell()
+		self.wordsmed.seek(0)
+		
+		self.wordssml.seek(0, 2)
+		smlend = self.wordssml.tell()
+		self.wordssml.seek(0)
+		
+		while self.wordsbig.tell() < bigend:
+			data = self.wordsbig.readline()
+			data.rstrip('\n')
+			self.writedata(data)
+		
+		while self.wordsmed.tell() < medend:
+			data = self.wordsmed.readline()
+			data.rstrip('\n')
+			self.writedata(data)
+			
+		while self.wordssml.tell() < smlend:
+			data = self.wordssml.readline()
+			data.rstrip('\n')
+			self.writedata(data)
+		
+		self.close()
 		self.solutionfile.close()
+		print "[+] All files succesfully closed" #DEBUG
+		
+	# Close all output files in one clean shot
+	def close(self):
+		self.wordsbig.close()
+		self.wordsmed.close()
+		self.wordssml.close()
 		
 
 class WordDictionary:
@@ -115,27 +175,48 @@ class GameEngine:
 						
 				self.worker.work.append(work)
 				self.worker.process_work()
-		
+				
+				# DEBUG output
 				print "[+] Worker complete!"
 				print "Finished cell %s, %s" % (i, j)
 				print "Found %s Words" % len(self.worker.found_words)
 				
-		# DEBUG
+		# DEBUG: Should just print # of words, write to output file, and exit 
 		dummy = raw_input('\n--> ')
 							
 		for chain in self.worker.found_words:
 			data = chain[1]
 			datastr = ""
+			wordlength = 0
+			
 			for c in data:
 				datastr = datastr + str(c[0]) + ', ' + str(c[1]) + '-'
-			self.solution.writedata(datastr)
-	
+				wordlength += 1
+			
+			big_count = 0
+			med_count = 0 
+			sml_count = 0
+			
+			if wordlength > 8:
+				self.solution.writebig(datastr)
+				big_count += 1
+			
+			elif wordlength > 4:
+				self.solution.writemed(datastr)
+				med_count += 1
+			
+			else:
+				self.solution.writesml(datastr)
+				sml_count += 1
+				
+		print "Found %s big words, %s medium words, and %s small words" % (big_count, med_count, sml_count)
 		print "[+] Finalizing..."
 		
+		self.solution.catwords()
 		self.solution.close()			
 		self.dictionary.close()	
 	
-		print "[+] All data files successfully closed!"
+		print "[+] All solution files successfully written!"
 		print "Finished!"	
 				
 if __name__=='__main__':

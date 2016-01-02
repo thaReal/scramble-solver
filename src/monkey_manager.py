@@ -1,6 +1,8 @@
 # MonkeyRunner tool to input generated coordinate list
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 import time
+import os
+
 
 # Keymap for Nexus 7 Tablet
 KEYMAP = {
@@ -25,11 +27,14 @@ KEYMAP = {
 OK_BUTTON = (675, 275)	
 RESUME_BUTTON = (395, 715)
 
+cwd = os.getcwd()
+datadir = cwd + "/solutiondata"
+os.chdir(datadir)
+
 sfile = open('solution.txt', 'r')
 sfile.seek(0, 2)
 endfile = sfile.tell()
 sfile.seek(0)
-
 words_entered = 0
 
 print 'waiting for device'
@@ -40,11 +45,10 @@ print '[+] All systems go!'
 
 device.touch(RESUME_BUTTON[0], RESUME_BUTTON[1], MonkeyDevice.DOWN_AND_UP)
 time.sleep(1)
+
 print '[+] Blast off!!\n'
 
-
 line = sfile.readline()
-
 while sfile.tell() != endfile:
 	data = line.split('-')
 	data.pop()

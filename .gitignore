@@ -1,5 +1,12 @@
 /src/monkeyrunner
-/src/solution.txt
+
+#/src/solution.txt
+
+/src/solutiondata/solution.txt
+/src/solutiondata/words-big.txt
+/src/solutiondata/words-med.txt
+/src/solutiondata/words-sml.txt
+
 
 /src/*.pyc
 /src/*.py~
