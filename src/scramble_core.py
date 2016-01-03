@@ -18,15 +18,20 @@ class SolutionFile:
 		self.wordsbig = file('words-big.txt' , 'w')
 		self.wordsmed = file('words-med.txt', 'w')
 		self.wordssml = file('words-sml.txt', 'w')
-					
+		
+		files = os.listdir(self.datadir)
+		for f in files:
+			if f == 'solution.txt':
+				os.remove(self.datadir + "solution.txt")
+				print "Old solution file removed"
+		
 		# change back to src directory
 		os.chdir(self.maindir)
 		
 		
 	def writedata(self, data):
 		self.solutionfile.write(data)
-		# self.solutionfile.write('\n')
-		
+				
 	# Functions to write found words to respective files based on size
 	# NOTE: probably want to eventually move this all to a post processing step
 	# that can do a finer sort, collect stats, randomize, etc.
@@ -82,6 +87,16 @@ class SolutionFile:
 		
 		self.close()
 		self.solutionfile.close()
+		
+		# lets remove the intermediate files here
+		try:
+			os.remove('words-big.txt')
+			os.remove('words-med.txt')
+			os.remove('words-sml.txt')
+		except:
+			print "[-] Intermediate file delete FAILED!"
+		
+		
 		print "[+] All files succesfully closed" #DEBUG
 		
 	# Close all output files in one clean shot
@@ -182,8 +197,12 @@ class GameEngine:
 				print "Found %s Words" % len(self.worker.found_words)
 				
 		# DEBUG: Should just print # of words, write to output file, and exit 
-		dummy = raw_input('\n--> ')
+		# dummy = raw_input('\n--> ')
 							
+		big_count = 0
+		med_count = 0 
+		sml_count = 0
+
 		for chain in self.worker.found_words:
 			data = chain[1]
 			datastr = ""
@@ -193,15 +212,11 @@ class GameEngine:
 				datastr = datastr + str(c[0]) + ', ' + str(c[1]) + '-'
 				wordlength += 1
 			
-			big_count = 0
-			med_count = 0 
-			sml_count = 0
-			
-			if wordlength > 8:
+			if wordlength > 6:
 				self.solution.writebig(datastr)
 				big_count += 1
 			
-			elif wordlength > 4:
+			elif wordlength > 3:
 				self.solution.writemed(datastr)
 				med_count += 1
 			
@@ -210,14 +225,16 @@ class GameEngine:
 				sml_count += 1
 				
 		print "Found %s big words, %s medium words, and %s small words" % (big_count, med_count, sml_count)
-		print "[+] Finalizing..."
 		
+		print "[+] Finalizing..."
 		self.solution.catwords()
+		
 		self.solution.close()			
 		self.dictionary.close()	
 	
 		print "[+] All solution files successfully written!"
 		print "Finished!"	
+		
 				
 if __name__=='__main__':
 	newgame = GameEngine()

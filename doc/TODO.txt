@@ -1,0 +1,14 @@
+TODO
+====
+
+B1 - "Qu" doesn't work with solver logic/input checks.
+
+B2 - MonkeyRunner "ChimpChat" Errors
+	 > Occasionally monkeyrunner will launch and throw a ton of 'chimpchat'
+	 errors when trying to send input to the device. Originally I thought it 
+	 occured if monkeyrunner didn't exit cleanly but that doesn't seem to be
+	 the case. Need to look into error handling directly with 
+	 monkeyrunner/jython since I'm not sure if it's possible for python to know
+	 whether an input command was succesful or not.
+	 
+

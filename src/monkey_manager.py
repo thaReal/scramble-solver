@@ -48,25 +48,27 @@ time.sleep(1)
 
 print '[+] Blast off!!\n'
 
-line = sfile.readline()
+t_sleep = 0.2
+
 while sfile.tell() != endfile:
+	line = sfile.readline()
 	data = line.split('-')
 	data.pop()
 	
+	if len(data) <= 3:
+		t_sleep = 0.1
+		
 	for point in data:
 		coords = KEYMAP[point]
 		device.touch(coords[0], coords[1], MonkeyDevice.DOWN_AND_UP)
-		# DEBUG
-		# print "clicked %s, %s" % (coords[0], coords[1])
+		
 	words_entered = words_entered + 1
 	if words_entered % 10 == 0:
 		print "Entered %s words so far" % words_entered
 		
 	time.sleep(0.1)
 	device.touch(675, 275, MonkeyDevice.DOWN_AND_UP)
-	time.sleep(0.2)	
-
-	line = sfile.readline()
+	time.sleep(t_sleep)	
 	
 	
 print "\n[+] aaand we're done!\n"
