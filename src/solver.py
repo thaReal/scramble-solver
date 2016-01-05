@@ -76,12 +76,20 @@ class ChainRoot:
 		self.coord_list = []
 		self.coord_list.append(self.coord)
 		
+		# BUGFIX for case where letter is "Qu"
+		if letter == "Q":
+			self.rootstr.append("U")
+		
 
 class WordChain:
 	def __init__(self, parent, coord, letter):
 		self.coord = coord
 		self.coord_list = parent.coord_list + [(self.coord)]
 		self.rootstr = parent.rootstr + letter
+		
+		# BUGFIX for case where letter is "Qu"
+		if letter == "Q":
+			self.rootstr.append("U")
 		
 		
 class Worker:
@@ -138,9 +146,6 @@ class Worker:
 			newchain = WordChain(chain, newcoord, letter)	
 			self.work.append(newchain)
 			
-			# DEBUG
-			# print "New Chain: %s, coords: %s" % (newchain.rootstr, 
-			# newchain.coord_list)
 				
 	def lookup(self, chain):
 		lookup_string = chain.rootstr
@@ -171,8 +176,6 @@ class Worker:
 				if dword[0] != first_char:
 					return False
 				elif dword.startswith(lookup_string):
-					#debug
-					#print "o Found root: %s in %s" % (lookup_string, dword)
 					return True
 			
 			except:

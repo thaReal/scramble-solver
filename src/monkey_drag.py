@@ -1,8 +1,9 @@
 # MonkeyRunner tool to input generated coordinate list
-from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 import time
 import os
 
+print "\n[+] MonkeyRunner loading..."
+from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
 
 # Keymap for Nexus 7 Tablet
 KEYMAP = {
@@ -27,6 +28,7 @@ KEYMAP = {
 OK_BUTTON = (675, 275)	
 RESUME_BUTTON = (395, 715)
 
+
 cwd = os.getcwd()
 datadir = cwd + "/solutiondata"
 os.chdir(datadir)
@@ -48,8 +50,6 @@ time.sleep(1)
 
 print '[+] Blast off!!\n'
 
-t_sleep = 0.2
-
 time_start = time.time()
 
 while sfile.tell() != endfile:
@@ -57,21 +57,32 @@ while sfile.tell() != endfile:
 	data = line.split('-')
 	data.pop()
 	
-	if len(data) <= 3:
-		t_sleep = 0.1
-		
+	num_points = 1
+	wlength = len(data)
+	clast = ()
+	
 	for point in data:
 		coords = KEYMAP[point]
-		device.touch(coords[0], coords[1], MonkeyDevice.DOWN_AND_UP)
+		if num_points == 1:
+			device.touch(coords[0], coords[1], MonkeyDevice.DOWN)
+			clast = (coords[0], coords[1])
+		else:
+			device.drag(clast, coords, 0.05, 50)
+			clast = (coords[0], coords[1])
+			
+		if num_points == wlength:
+			device.touch(coords[0], coords[1], MonkeyDevice.UP)
+			
+		num_points += 1
+			
+			
+	time.sleep(0.1)
 		
 	words_entered = words_entered + 1
 	if words_entered % 10 == 0:
 		print "Entered %s words so far" % words_entered
 		
-	time.sleep(0.1)
-	device.touch(675, 275, MonkeyDevice.DOWN_AND_UP)
-	time.sleep(t_sleep)	
-	
+
 time_end = time.time()
 run_time = time_end - time_start
 wps = words_entered / run_time

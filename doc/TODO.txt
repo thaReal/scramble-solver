@@ -11,4 +11,19 @@ B2 - MonkeyRunner "ChimpChat" Errors
 	 monkeyrunner/jython since I'm not sure if it's possible for python to know
 	 whether an input command was succesful or not.
 	 
+B3 - 'z' in a corner 
 
+Improvements
+------------
+
+I1 - Ultimately want to improve overall start-to-finish workflow time to run 
+	 the app as much as possible to eventually implement a "tournament mode". I
+	 know it can be done easily in the lower rounds but I think it's going to 
+	 take some asynchronous events and potentinally multiple threads.
+	 
+I2 - Use MonkeyDevice.drag() vs. device.touch() 
+
+I3 - Calculate actual speed (per word of a given size) that program runs at to 
+	 use as a baseline for determining bottlenecks.
+	 
+I4
