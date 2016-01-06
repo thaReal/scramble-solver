@@ -88,6 +88,7 @@ class WordChain:
 		self.rootstr = parent.rootstr + letter
 		
 		# BUGFIX for case where letter is "Qu"
+		# -> Doesn't work, not sure why...
 		if letter == "Q":
 			self.rootstr.append("U")
 		
@@ -109,7 +110,7 @@ class Worker:
 			if check == True:
 				self.find_adjacent(chain)
 			
-			if self.workcount % 10 == 0:
+			if self.workcount % 100 == 0:
 				print "Processed %s chains so far." % str(self.workcount)
 
 	def find_adjacent(self, chain):
@@ -122,12 +123,12 @@ class Worker:
 			adjacent_cells.append(new_coord)
 		
 		# check each cell for OOB
-		
 		valid_cells1 = []
 		for cell in adjacent_cells:
 			if cell[0] >= 0 and cell[1] >= 0 and cell[0] <= 3 and cell[1] <= 3:
 				valid_cells1.append(cell)
 		
+		# check if cell is already used in word-chain
 		valid_cells2 = []
 		for j in valid_cells1:
 			itr = 0
@@ -138,7 +139,6 @@ class Worker:
 				valid_cells2.append(j)
 		
 		# create new chains with each valid cell and push back to work queue
-		
 		for newcoord in valid_cells2:
 			row = newcoord[0]
 			col = newcoord[1]
@@ -167,9 +167,8 @@ class Worker:
 					if af == 0:
 						self.found_words.append((lookup_string,
 						chain.coord_list))
-						print "[+] Found word: %s!" % lookup_string
+						#print "[+] Found word: %s!" % lookup_string
 					
-			# regardless, check if there are still valid longer words
 			# NOTE: can be optimized by saving a search index with chain object
 			
 			try:

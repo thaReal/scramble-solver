@@ -48,9 +48,9 @@ time.sleep(1)
 
 print '[+] Blast off!!\n'
 
-t_sleep = 0.2
-
-time_start = time.time()
+t_sleep1 = 0.2
+t_sleep2 = 0.2
+#time_start = time.time()
 
 while sfile.tell() != endfile:
 	line = sfile.readline()
@@ -58,7 +58,15 @@ while sfile.tell() != endfile:
 	data.pop()
 	
 	if len(data) <= 3:
-		t_sleep = 0.1
+		t_sleep1 = 0.1
+		t_sleep2 = 0.1
+	elif len(data) < 7:
+		t_sleep1 = 0.1
+		t_sleep2 = 0.2
+	else:
+		t_sleep1 = 0.2
+		t_sleep2 = 0.2
+	
 		
 	for point in data:
 		coords = KEYMAP[point]
@@ -68,16 +76,16 @@ while sfile.tell() != endfile:
 	if words_entered % 10 == 0:
 		print "Entered %s words so far" % words_entered
 		
-	time.sleep(0.1)
+	time.sleep(t_sleep1)
 	device.touch(675, 275, MonkeyDevice.DOWN_AND_UP)
-	time.sleep(t_sleep)	
+	time.sleep(t_sleep2)	
 	
-time_end = time.time()
-run_time = time_end - time_start
-wps = words_entered / run_time
+#time_end = time.time()
+#run_time = time_end - time_start
+#wps = words_entered / run_time
 
 print "\n[+] aaand we're done!\n"
-print "Runtime: %s seconds" % run_time
-print "Words per second: %s" % wps
+#print "Runtime: %s seconds" % run_time
+#print "Words per second: %s" % wps
 
 sfile.close()

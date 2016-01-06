@@ -3,7 +3,7 @@
 
 import solver
 import os
-
+import time
 
 class SolutionFile:
 	def __init__(self):
@@ -186,18 +186,19 @@ class GameEngine:
 				work_letter = self.game[i][j]
 				work = solver.ChainRoot(work_letter, work_coord)
 				
-				print "[+] Worker started, coords: %s, %s" % (i, j)
-						
+				# print "[+] Worker started, coords: %s, %s" % (i, j)	
 				self.worker.work.append(work)
 				self.worker.process_work()
-				
-				# DEBUG output
-				print "[+] Worker complete!"
-				print "Finished cell %s, %s" % (i, j)
+
+				n = (i * 4) + j + 1				
+				progress = (n / 16.0) * 100.0
+
+				outstr = "[+] %3.1f" % progress
+				outstr += "%"
+				outstr += " done"
+				print outstr
 				print "Found %s Words" % len(self.worker.found_words)
 				
-		# DEBUG: Should just print # of words, write to output file, and exit 
-		# dummy = raw_input('\n--> ')
 							
 		big_count = 0
 		med_count = 0 
