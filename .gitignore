@@ -6,7 +6,7 @@
 /src/solutiondata/words-big.txt
 /src/solutiondata/words-med.txt
 /src/solutiondata/words-sml.txt
-
+/src/solutiondata/stats.csv
 
 /src/*.pyc
 /src/*.py~

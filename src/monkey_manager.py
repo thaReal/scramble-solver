@@ -35,7 +35,6 @@ sfile = open('solution.txt', 'r')
 sfile.seek(0, 2)
 endfile = sfile.tell()
 sfile.seek(0)
-words_entered = 0
 
 print 'waiting for device'
 device = MonkeyRunner.waitForConnection()
@@ -50,7 +49,9 @@ print '[+] Blast off!!\n'
 
 t_sleep1 = 0.2
 t_sleep2 = 0.2
-#time_start = time.time()
+time_start = time.time()
+letter_count = 0
+word_count = 0
 
 while sfile.tell() != endfile:
 	line = sfile.readline()
@@ -71,21 +72,25 @@ while sfile.tell() != endfile:
 	for point in data:
 		coords = KEYMAP[point]
 		device.touch(coords[0], coords[1], MonkeyDevice.DOWN_AND_UP)
+		letter_count += 1
 		
-	words_entered = words_entered + 1
-	if words_entered % 10 == 0:
-		print "Entered %s words so far" % words_entered
+	word_count = word_count + 1
+	if word_count % 10 == 0:
+		print "Entered %s words so far" % word_count
 		
 	time.sleep(t_sleep1)
 	device.touch(675, 275, MonkeyDevice.DOWN_AND_UP)
 	time.sleep(t_sleep2)	
 	
-#time_end = time.time()
-#run_time = time_end - time_start
-#wps = words_entered / run_time
-
-print "\n[+] aaand we're done!\n"
-#print "Runtime: %s seconds" % run_time
-#print "Words per second: %s" % wps
+time_end = time.time()
+run_time = time_end - time_start
+wps = word_count / run_time
+lps = letter_count / run_time
 
 sfile.close()
+
+print "\n[+] aaand we're done!\n"
+print "Runtime: %s seconds" % run_time
+print "Words per second: %s" % wps
+print "Letters per second: %s" % lps
+

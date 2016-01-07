@@ -4,6 +4,25 @@
 import solver
 import os
 import time
+import csv
+
+LOG_STATS = True
+
+class StatGetter:
+	def __init__(self):
+		self.sourcedir = os.getcwd()
+		self.datadir = self.sourcedir + "/solutiondata/"
+		os.chdir(self.datadir)
+		self.statfile = open('stats.csv', 'a')
+		self.csv_writer = csv.writer(self.statfile)
+		os.chdir(self.sourcedir)
+		
+	def logstats(self, data):
+		self.csv_writer.writerow(data)
+		
+	def close(self):
+		self.statfile.close()
+		
 
 class SolutionFile:
 	def __init__(self):
@@ -93,12 +112,10 @@ class SolutionFile:
 			os.remove('words-big.txt')
 			os.remove('words-med.txt')
 			os.remove('words-sml.txt')
+			print "[+] All files succesfully closed"
 		except:
 			print "[-] Intermediate file delete FAILED!"
-		
-		
-		print "[+] All files succesfully closed" #DEBUG
-		
+				
 	# Close all output files in one clean shot
 	def close(self):
 		self.wordsbig.close()
@@ -172,6 +189,9 @@ class GameEngine:
 		print "[+] Dictionary Loaded!"
 		self.solution = SolutionFile()
 		print "[+] Solution file loaded!"
+		if LOG_STATS:
+			self.stats = StatGetter()
+			print "[+] Stats file loaded!"
 		
 		print_game(self.game)
 		self.run()
@@ -180,13 +200,15 @@ class GameEngine:
 	def run(self):
 		self.worker = solver.Worker(self.dictionary, self.game)
 		print "[+] Scramble solver starting!"
+		
 		for i in range(4):
 			for j in range(4):
+				time_start = time.time()
+				
 				work_coord = (i, j)
 				work_letter = self.game[i][j]
 				work = solver.ChainRoot(work_letter, work_coord)
 				
-				# print "[+] Worker started, coords: %s, %s" % (i, j)	
 				self.worker.work.append(work)
 				self.worker.process_work()
 
@@ -196,8 +218,18 @@ class GameEngine:
 				outstr = "[+] %3.1f" % progress
 				outstr += "%"
 				outstr += " done"
+				
+				time_done = time.time()
+				time_elapsed = time_done - time_start
+				
 				print outstr
 				print "Found %s Words" % len(self.worker.found_words)
+				print "Cell time: %4.2f" % time_elapsed
+				print ""
+				
+				if LOG_STATS:
+					self.stats.logstats([n, len(self.worker.found_words), 
+					time_elapsed])
 				
 							
 		big_count = 0
@@ -231,7 +263,8 @@ class GameEngine:
 		self.solution.catwords()
 		
 		self.solution.close()			
-		self.dictionary.close()	
+		self.dictionary.close()
+		self.stats.close()
 	
 		print "[+] All solution files successfully written!"
 		print "Finished!"	
