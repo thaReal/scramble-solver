@@ -225,11 +225,11 @@ class GameEngine:
 				print outstr
 				print "Found %s Words" % len(self.worker.found_words)
 				print "Cell time: %4.2f" % time_elapsed
-				print ""
+				print "%s chains processed\n" % self.worker.workcount
 				
 				if LOG_STATS:
 					self.stats.logstats([n, len(self.worker.found_words), 
-					time_elapsed])
+					self.worker.workcount, time_elapsed])
 				
 							
 		big_count = 0
