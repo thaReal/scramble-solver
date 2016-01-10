@@ -39,6 +39,8 @@ class MainWindow(Frame):
 		self.mselect.destroy()
 		self.status.setmsg("Tournament Mode Started!")
 		
+	def playSingleGame(self):
+		pass	
 		
 	def loadDevice(self):
 		pass
@@ -117,12 +119,25 @@ class GameFrame(Frame):
 	def __init__(self, parent):
 		Frame.__init__(self, parent)
 		self.parent = parent
-		self.makeConsole()
+		self.initialize()
+		self.printMessage('Console Loaded!')
 		
-	def makeConsole(self):
-		self.console = Text(self, height=10, width=20)
-		self.console.grid(column=0, row=0, columnspan=2,padx=10, pady=10)
+	def initialize(self):
+		self.console = Text(self, height=4, width=20, background='black',
+		foreground='white')
+		self.console.grid(column=0, row=0, columnspan=2, padx=10, pady=10)
+		self.cline = 0
 		
+		self.display = Canvas(self, height=100, width=100)
+		self.display.grid(column=2, row=0)
+		
+		self.startbutton = Button(self, text="Start", state='disabled')
+		self.startbutton.grid(column=0, row=1, pady=10)
+		
+		
+	def printMessage(self, message):
+		self.console.insert((str(self.cline) + ".0"), message)
+		self.cline += 1
 		
 
 if __name__=='__main__':

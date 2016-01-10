@@ -192,8 +192,8 @@ class GameEngine:
 		if LOG_STATS:
 			self.stats = StatGetter()
 			print "[+] Stats file loaded!"
-		
 		print_game(self.game)
+		
 		self.run()
 		
 		
@@ -222,48 +222,48 @@ class GameEngine:
 				time_done = time.time()
 				time_elapsed = time_done - time_start
 				
-				print '\n' + outstr
+				print outstr
 				print "Found %s Words" % len(self.worker.found_words)
 				print "Cell time: %4.2f" % time_elapsed
 				print "%s chains processed\n" % self.worker.workcount
 				
 				if LOG_STATS:
-					self.stats.logstats([n, work_letter, 
-					len(self.worker.found_words), self.worker.workcount, 
-					time_elapsed])
+					self.stats.logstats([n, len(self.worker.found_words), 
+					self.worker.workcount, time_elapsed])
 				
-							
-		big_count = 0
-		med_count = 0 
-		sml_count = 0
+		
+		def writeSolution(self, worker):					
+			big_count = 0
+			med_count = 0 
+			sml_count = 0
 
-		for chain in self.worker.found_words:
-			data = chain[1]
-			datastr = ""
-			wordlength = 0
+			for chain in self.worker.found_words:
+				data = chain[1]
+				datastr = ""
+				wordlength = 0
 			
-			for c in data:
-				datastr = datastr + str(c[0]) + ', ' + str(c[1]) + '-'
-				wordlength += 1
+				for c in data:
+					datastr = datastr + str(c[0]) + ', ' + str(c[1]) + '-'
+					wordlength += 1
 			
-			if wordlength > 6:
-				self.solution.writebig(datastr)
-				big_count += 1
+				if wordlength > 6:
+					self.solution.writebig(datastr)
+					big_count += 1
 			
-			elif wordlength > 3:
-				self.solution.writemed(datastr)
-				med_count += 1
+				elif wordlength > 3:
+					self.solution.writemed(datastr)
+					med_count += 1
 			
-			else:
-				self.solution.writesml(datastr)
-				sml_count += 1
+				else:
+					self.solution.writesml(datastr)
+					sml_count += 1
 				
-		print "Found %s big words, %s medium words, and %s small words" % (big_count, med_count, sml_count)
+			print "Found %s big words, %s medium words, and %s small words" % (big_count, med_count, sml_count)
 		
 		print "[+] Finalizing..."
 		self.solution.catwords()
-		
 		self.solution.close()			
+		
 		self.dictionary.close()
 		self.stats.close()
 	

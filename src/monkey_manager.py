@@ -59,9 +59,12 @@ while sfile.tell() != endfile:
 	data.pop()
 	
 	if len(data) <= 3:
-		t_sleep1 = 0.1
+		t_sleep1 = 0.08
 		t_sleep2 = 0.1
-	elif len(data) < 7:
+	elif len(data) < 6:
+		t_sleep1 = 0.08
+		t_sleep2 = 0.15
+	elif len(data) < 8:
 		t_sleep1 = 0.1
 		t_sleep2 = 0.2
 	else:
