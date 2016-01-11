@@ -8,5 +8,7 @@
 /src/solutiondata/words-sml.txt
 /src/solutiondata/stats.csv
 
+/src/screencaptures/*
+
 /src/*.pyc
 /src/*.py~

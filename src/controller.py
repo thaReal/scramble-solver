@@ -1,6 +1,6 @@
 from com.android.monkeyrunner import MonkeyRunner, MonkeyDevice
+#import imageprocessor
 import time
-import os
 
 # Keymappings for Nexus 7 Tablet (2012)
 # Nexus 7 Screen: 800 x 1200
@@ -48,7 +48,7 @@ class ScrambleController:
 		self.screenshot = self.device.takeSnapshot()
 		
 	def save_screenshot(self):
-		self.screenshot.writeToFile('screencaptures/shot1.png','png')
+		self.screenshot.writeToFile('screencaptures/capture.png','png')
 		
 	def tap(self, coords):
 		x, y = coords
@@ -83,4 +83,10 @@ class ScrambleController:
 if __name__=='__main__':
 	n7 = ScrambleController()
 	n7.start_sequence()
+	'''
+	screencap = imageprocessor.ScreenCapture()
 	
+	screencap.cropScreen()
+	screencap.cleanColor()
+	screencap.showImage()
+	'''

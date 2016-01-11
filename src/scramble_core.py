@@ -158,8 +158,12 @@ def make_game_array(input_letters):
 	for i in range(4):
 		row = []
 		for j in range(4):
-			row.append(input_letters[count])
-			count = count + 1
+			if input_letters[count] == 'Q':
+				row.append('QU')
+				count += 1
+			else:
+				row.append(input_letters[count])
+				count = count + 1
 		game.append(row) 
 	return game
 
