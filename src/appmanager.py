@@ -1,6 +1,6 @@
 import subprocess
 import os
-
+import time
 
 def makeInputString():
 	instr = ""
@@ -29,7 +29,12 @@ def processScreenshot():
 		print retcode
 		
 
-def playGame()
+def solveBoard(inputstr):
+	retcode = subprocess.call(['python', 'scramble_core.py', inputstr])
+	print retcode
+		
+
+def playGame():
 	retcode = subprocess.call(['./monkeyrunner', 'monkey_manager.py'])
 	print retcode
 
@@ -39,8 +44,33 @@ def playGame()
 
 
 if __name__=='__main__':
+	print "\n[STARTING GAME]\n"
 	startNewGame()
+	
+	time1 = time.time()
+	print "[+] Timer Started!"
+	
+	print "\n[PROCESSING SCREEN]\n"
 	processScreenshot()
+	
+	print "\n[EXTRACTING LETTERS]\n"
 	letters = makeInputString()
-	print letters
+	
+	print '\n-> ' + letters + '\n'
+	
+	print "\n[SOLVER STARTING]\n"
+	solveBoard(letters)
+	
+	time2 = time.time()
+	
+	print "\n[WINNING]\n"
+	playGame()
+	
+	time3 = time.time()
+	timer1 = time2 - time1
+	timer2 = time3 - time1
+	
+	print "[+] Timer(s) Ended!"
+	print "\nTime to solve: %s" % timer1
+	print "\nTime to complete: %s" % timer2
 	

@@ -5,6 +5,7 @@ import solver
 import os
 import time
 import csv
+from sys import argv
 
 LOG_STATS = True
 
@@ -179,8 +180,11 @@ def print_game(game_array):
 #-----
 
 class GameEngine:
-	def __init__(self):
-		self.user_input = get_input()
+	def __init__(self, inputstr=None):
+		if inputstr != None:
+			self.user_input = inputstr.lower()
+		else:
+			self.user_input = get_input()
 		
 		if check_letters(self.user_input) != True:
 			print "[-] Input Error!"
@@ -276,4 +280,7 @@ class GameEngine:
 		
 				
 if __name__=='__main__':
-	newgame = GameEngine()
+	if len(argv) > 1:
+		newgame = GameEngine(inputstr=argv[1])
+	else:
+		newgame = GameEngine()
