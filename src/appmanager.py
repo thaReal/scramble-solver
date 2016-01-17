@@ -1,6 +1,7 @@
 import subprocess
 import os
 import time
+from sys import argv
 
 def makeInputString():
 	instr = ""
@@ -12,12 +13,25 @@ def makeInputString():
 		stdout=subprocess.PIPE).communicate()[0]
 		instr += output[0:4]
 		print "[+] Finished row %s" % str(n+1)
-	
 	return instr
 	
+
+def verifyInput(inputstr):
+	print '\n-> ' + inputstr + '\n'
+	verify = raw_input("Is this correct? [y/n] ")
+	if verify != 'y':
+		print "Enter correct puzzle letters: "
+		letters = raw_input('> ')
+	else:
+		letters = inputstr
+	return letters
 	
-def startNewGame():
-	retcode = subprocess.call(['./monkeyrunner', 'controller.py'])
+	
+def startNewGame(tournament=False):
+	if tournament:
+		retcode = subprocess.call(['./monkeyrunner', 'controller-tournament.py'])
+	else:	
+		retcode = subprocess.call(['./monkeyrunner', 'controller.py'])
 	print retcode
 	
 	
@@ -39,13 +53,15 @@ def playGame():
 	print retcode
 
 
-# Need to add a new entry point into scramble_core so I can pass a string as 
-# input rather than enter it manually.
-
 
 if __name__=='__main__':
-	print "\n[STARTING GAME]\n"
-	startNewGame()
+	if len(argv) > 1:
+		if argv[1] == 't':
+			print "\n[STARTING TOURNAMENT ROUNG]\n"		
+			startNewGame(tournament=True)
+	else:
+		print "\n[STARTING GAME]\n"
+		startNewGame()
 	
 	time1 = time.time()
 	print "[+] Timer Started!"
@@ -54,9 +70,9 @@ if __name__=='__main__':
 	processScreenshot()
 	
 	print "\n[EXTRACTING LETTERS]\n"
-	letters = makeInputString()
 	
-	print '\n-> ' + letters + '\n'
+	inputstr = makeInputString()
+	letters = verifyInput(inputstr)
 	
 	print "\n[SOLVER STARTING]\n"
 	solveBoard(letters)

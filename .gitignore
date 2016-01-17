@@ -9,6 +9,7 @@
 /src/solutiondata/stats.csv
 
 /src/screencaptures/*
+!/src/screencaptures/template_row.png
 
 /src/*.pyc
 /src/*.py~

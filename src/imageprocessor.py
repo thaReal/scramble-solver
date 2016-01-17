@@ -73,14 +73,14 @@ class ScreenCapture:
 			
 				img.save(dest_str)
 				print "[+] Saved image: %s-%s" % (str(i+1), str(j+1))
-				img.close()
+				#img.close()
 				
 			
 	def makePreview(self):
 		size = (200, 200)
 		img_preview = self.letters.resize(size)
 		img_preview.save('screencaptures/preview.png')
-		img_preview.close()
+		#img_preview.close()
 		print "[+] Preview thumbnail created!"
 		
 	
@@ -99,10 +99,10 @@ class ScreenCapture:
 				letter_img = Image.open(imgstr)
 				offset_x = j * 100
 				row_img.paste(letter_img, (offset_x, 0))
-				letter_img.close()
+				#letter_img.close()
 			savestr = 'screencaptures/row-%s.png' % str(i+1)
 			row_img.save(savestr)
-			row_img.close()
+			#row_img.close()
 			print "[+] Finished row %s" % str(i+1)
 		print "[+] Finished"
 		
