@@ -16,6 +16,15 @@ def makeInputString():
 	return instr
 	
 
+def quickCheckInput(inputstr):
+	if len(inputstr) != 16:
+		return False	
+	for char in inputstr:
+		if char.isalpha() != True:
+			return False
+	return True
+
+
 def verifyInput(inputstr):
 	print '\n-> ' + inputstr + '\n'
 	verify = raw_input("Is this correct? [y/n] ")
@@ -57,29 +66,32 @@ def playGame():
 if __name__=='__main__':
 	if len(argv) > 1:
 		if argv[1] == 't':
-			print "\n[STARTING TOURNAMENT ROUNG]\n"		
+			print "\n[1-STARTING TOURNAMENT ROUND]\n"		
 			startNewGame(tournament=True)
 	else:
-		print "\n[STARTING GAME]\n"
+		print "\n[1-STARTING GAME]\n"
 		startNewGame()
 	
 	time1 = time.time()
 	print "[+] Timer Started!"
 	
-	print "\n[PROCESSING SCREEN]\n"
+	print "\n[2-PROCESSING SCREEN]\n"
 	processScreenshot()
 	
-	print "\n[EXTRACTING LETTERS]\n"
+	print "\n[3-EXTRACTING LETTERS]\n"
 	
 	inputstr = makeInputString()
-	letters = verifyInput(inputstr)
-	
-	print "\n[SOLVER STARTING]\n"
+	if quickCheckInput(inputstr) != True:
+		letters = verifyInput(inputstr)
+	else:
+		letters = inputstr
+
+	print "\n[4-SOLVER STARTING]\n"
 	solveBoard(letters)
 	
 	time2 = time.time()
 	
-	print "\n[WINNING]\n"
+	print "\n[5-WINNING]\n"
 	playGame()
 	
 	time3 = time.time()

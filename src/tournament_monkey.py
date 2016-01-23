@@ -41,14 +41,16 @@ class TournamentMonkey:
 			data.pop()
 	
 		if len(data) <= 3:
-			t_sleep1 = 0.1
+			t_sleep1 = 0.0875
 			t_sleep2 = 0.1
+
 		elif len(data) < 7:
 			t_sleep1 = 0.1
-			t_sleep2 = 0.2
+			t_sleep2 = 0.1
+		
 		else:
-			t_sleep1 = 0.2
-			t_sleep2 = 0.2
+			t_sleep1 = 0.15
+			t_sleep2 = 0.15
 	
 	for point in data:
 		coords = KEYMAP[point]
@@ -62,6 +64,12 @@ class TournamentMonkey:
 	time.sleep(t_sleep1)
 	device.touch(675, 275, MonkeyDevice.DOWN_AND_UP)
 	time.sleep(t_sleep2)	
+
+	time_n = time.time()
+	if time_n - time_start > 120.0:
+		print "Game's done... I think..."
+		break
+	
 	
 time_end = time.time()
 run_time = time_end - time_start
