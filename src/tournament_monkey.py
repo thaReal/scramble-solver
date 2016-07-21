@@ -41,8 +41,8 @@ class TournamentMonkey:
 			data.pop()
 	
 		if len(data) <= 3:
-			t_sleep1 = 0.0875
-			t_sleep2 = 0.1
+			t_sleep1 = 0.05
+			t_sleep2 = 0.05
 
 		elif len(data) < 7:
 			t_sleep1 = 0.1

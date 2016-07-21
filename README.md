@@ -36,6 +36,8 @@ monkeyrunner executeable in the /src/ directory.
 
 Usage
 -----
+WARNING: THIS SECTION IS OUTDATED!!!
+
 This is the part that needs to definitely get streamlined (but also breaks 
 things the most) although usage is still fairly simple. Write now I only wrote
 a Unix version of this but it works virtually the same in Windows.
@@ -64,3 +66,11 @@ a Unix version of this but it works virtually the same in Windows.
    file, find your device, and then begin running through entering each word. It
    should exit by itself once it reaches the end of the file (usually before the
    puzzle is done, using just one freeze powerup).
+   
+* This has been improved significantly but could still use some additional 
+(new) fixes that I'll be documenting. For individual games change to the source
+directory and run the following command:
+
+	> python appmanager.py
+	
+
