@@ -101,17 +101,20 @@ class Worker:
 		self.found_words = []
 		self.workcount = 0
 		
+		
+		
 	def process_work(self):
 		while len(self.work) != 0:
 			chain = self.work.pop()
 			self.workcount += 1
-			check = self.lookup(chain)
 			
+			check = self.lookup(chain)
 			if check == True:
 				self.find_adjacent(chain)
 			
 			if self.workcount % 100 == 0:
 				print "Processed %s chains so far." % str(self.workcount)
+
 
 	def find_adjacent(self, chain):
 		root_cell = chain.coord

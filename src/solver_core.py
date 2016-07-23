@@ -187,17 +187,19 @@ class GameEngine:
 		
 		self.dictionary = WordDictionary()
 		print "[+] Dictionary Loaded!"
+		
 		self.solution = SolutionFile()
 		print "[+] Solution file loaded!"
+		
 		if LOG_STATS:
 			self.stats = StatGetter()
 			print "[+] Stats file loaded!"
 		print_game(self.game)
 		
-		self.run()
+		self.prepare()
 		
 		
-	def run(self):
+	def prepare(self):
 		self.worker = solver.Worker(self.dictionary, self.game)
 		print "[+] Scramble solver starting!"
 		
@@ -207,11 +209,14 @@ class GameEngine:
 				
 				work_coord = (i, j)
 				work_letter = self.game[i][j]
-				work = solver.ChainRoot(work_letter, work_coord)
 				
+				work = solver.ChainRoot(work_letter, work_coord)
 				self.worker.work.append(work)
+				
+	
 				self.worker.process_work()
 
+								
 				n = (i * 4) + j + 1				
 				progress = (n / 16.0) * 100.0
 
