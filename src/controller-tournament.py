@@ -32,7 +32,7 @@ POWERUP_PLAY = (400, 1050)
 OK_BUTTON = (675, 275)	
 RESUME_BUTTON = (395, 715)
 PAUSE_BUTTON = (750, 105)
-TOURNAMENT_PLAY= (400, 950)
+TOURNAMENT_PLAY= (400, 1000)
 
 #-----
 
@@ -107,5 +107,7 @@ class ScrambleController:
 
 if __name__=='__main__':
 	n7 = ScrambleController()
-	n7.start_sequence()
+	# only difference between standard 'controllor' is the specific start
+	# sequence commands
+	n7.tournament_start_sequence()
 
