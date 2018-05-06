@@ -9,9 +9,18 @@ def makeInputString():
 	
 	for n in range(4):
 		imgpath = basepath + str(n+1) + ".png"
-		output = subprocess.Popen(["tesseract", imgpath, "-"], 
+		
+		# Not sure if --psm 8 is a permanant fix or a temporary solution,
+		# otherwise tesseract returns a weird character instead of S
+		# Better implementation is probably restricting language or letters
+		# using cli options (somehow)... also fast-eng dictionary perhaps?
+		
+		# if 'letters' filter fails, --psm 8 was giving best results previously
+		
+		output = subprocess.Popen(["tesseract", imgpath, "-", "--psm", "8", 
+		"--oem", "0", "-c", "tessedit_char_whitelist=ABCDEFGHIJKLMNOPQRSTUVWXYZ"], 
 		stdout=subprocess.PIPE).communicate()[0]
-		instr += output[0:4]
+		instr += ''.join(output.split(' '))[0:4].upper()
 		print "[+] Finished row %s" % str(n+1)
 	return instr
 	
@@ -64,6 +73,9 @@ def playGame():
 
 
 if __name__=='__main__':
+
+	
+
 	if len(argv) > 1:
 		if argv[1] == 't':
 			print "\n[1-STARTING TOURNAMENT ROUND]\n"		
@@ -101,4 +113,3 @@ if __name__=='__main__':
 	print "[+] Timer(s) Ended!"
 	print "\nTime to solve: %s" % timer1
 	print "\nTime to complete: %s" % timer2
-	

@@ -2,7 +2,7 @@
 #-----
 from PIL import Image
 
-GAME_REGION = (60, 360, 740, 1040)
+GAME_REGION = (60, 440, 1040, 1400)
 
 BLACK = (0, 0, 0, 255)
 WHITE  = (255, 255, 255, 255)
@@ -18,8 +18,8 @@ class ScreenCapture:
 		
 		
 	def cleanColor(self):
-		x = 680
-		y = 680
+		x = 960
+		y = 960
 		for i in range(x):
 			for j in range(y):
 				pixel = self.letters.getpixel((i, j))
@@ -46,10 +46,10 @@ class ScreenCapture:
 	def eraseNumbers(self):
 		for i in range(4):
 			for j in range(4):
-				x0 = (i * 170) + 120
-				y0 = (j * 170)
-				x1 = x0 + 50
-				y1 = y0 + 50
+				x0 = (i * 248) + 175
+				y0 = (j * 248)
+				x1 = x0 + 45
+				y1 = y0 + 45
 				print "clearing %s, %s, %s, %s" % (x0, y0, x1, y1)
 				self.whiteoutRegion(x0, y0, x1, y1)
 		self.letters.save('screencaptures/capture-1.png')
@@ -59,10 +59,10 @@ class ScreenCapture:
 	def splitCells(self):
 		for i in range(4):
 			for j in range(4):
-				x0 = (i * 170) + 35
-				y0 = (j * 170) + 35
-				x1 = x0 + 100
-				y1 = y0 + 100
+				x0 = (i * 240) 
+				y0 = (j * 240)
+				x1 = x0 + 240
+				y1 = y0 + 240
 			
 				region = (x0, y0, x1, y1)
 				img = self.letters.crop(box=region)
@@ -97,7 +97,7 @@ class ScreenCapture:
 			for j in range(4):
 				imgstr = 'screencaptures/cell-%s-%s.png' % (str(j+1), str(i+1))
 				letter_img = Image.open(imgstr)
-				offset_x = j * 100
+				offset_x = j * 240
 				row_img.paste(letter_img, (offset_x, 0))
 				#letter_img.close()
 			savestr = 'screencaptures/row-%s.png' % str(i+1)

@@ -7,32 +7,32 @@ from sys import argv
 
 
 KEYMAP = {
-		'0, 0': (140, 450),
-		'0, 1': (310, 450),
-		'0, 2': (480, 450),
-		'0, 3': (650, 450),
-		'1, 0': (140, 625),
-		'1, 1': (310, 625),
-		'1, 2': (480, 625),
-		'1, 3': (650, 625),
-		'2, 0': (140, 800),
-		'2, 1': (310, 800),
-		'2, 2': (480, 800),
-		'2, 3': (650, 800),
-		'3, 0': (140, 975),
-		'3, 1': (310, 975),
-		'3, 2': (480, 975),
-		'3, 3': (650, 975)
+		'0, 0': (180, 560),
+		'0, 1': (420, 560),
+		'0, 2': (660, 560),
+		'0, 3': (900, 560),
+		'1, 0': (180, 800),
+		'1, 1': (420, 800),
+		'1, 2': (660, 800),
+		'1, 3': (900, 800),
+		'2, 0': (180, 1040),
+		'2, 1': (420, 1040),
+		'2, 2': (660, 1040),
+		'2, 3': (900, 1040),
+		'3, 0': (180, 1280),
+		'3, 1': (420, 1280),
+		'3, 2': (660, 1280),
+		'3, 3': (900, 1280)
 }
 
 # Gameflow button mappings
-PLAY_GAME = (400, 1160)
-POWERUP_FREEZE = (110, 600)
-POWERUP_PLAY = (400, 1050)
-OK_BUTTON = (675, 275)	
-RESUME_BUTTON = (395, 715)
-PAUSE_BUTTON = (750, 105)
-TOURNAMENT_PLAY= (400, 1000)
+PLAY_GAME = (800, 1700)
+POWERUP_FREEZE = (150, 750)
+POWERUP_PLAY = (540, 1590)
+OK_BUTTON = (800, 150)	# is this used?
+RESUME_BUTTON = (750, 1000)
+PAUSE_BUTTON = (1000, 100)
+TOURNAMENT_PLAY= (540, 1590) # same as powerup_play?
 
 #-----
 
@@ -89,7 +89,7 @@ class ScrambleController:
 	def tournament_start_sequence(self):
 		print "pressing freeze"
 		self.tap(POWERUP_FREEZE)
-		time.sleep(1)
+		time.sleep(3)
 		
 		print "starting"
 		self.tap(TOURNAMENT_PLAY)
